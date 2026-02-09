@@ -3,6 +3,7 @@ import './App.css'
 import { Header } from './components/header/Header'
 import { TaskForm } from './components/task-form/TaskForm'
 import { TaskList } from './components/task-list/TaskList';
+import { AIChat } from './components/ai-services/AIchat';
 
 function App() {
 
@@ -21,7 +22,14 @@ function App() {
     return (
         <>
             <Header/>
-            <TaskForm onAdd={addTask}/>
+            <div className="app-container">
+                <div className="form-section">
+                    <TaskForm onAdd={addTask}/>
+                </div>
+                <div className="chat-section">
+                    <AIChat/>
+                </div>
+            </div>
             <TaskList 
                 taskList={taskData}
                 onDelete={deleteTask}
