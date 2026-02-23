@@ -8,6 +8,7 @@ import { AIChat } from './components/ai-services/AIchat';
 function App() {
 
     const [taskData, setTaskData] = useState([]);
+    const [editingTask, setEditingTask] = useState(null);
 
     const addTask = (task) => {
         setTaskData([...taskData, task]);
@@ -19,12 +20,19 @@ function App() {
         console.log("Task Deleted Successfully...",taskData);
     }
 
+    const editTask = (task) => {
+        setEditingTask(task);
+    }
+
     return (
         <>
             <Header/>
             <div className="app-container">
                 <div className="form-section">
-                    <TaskForm onAdd={addTask}/>
+                    <TaskForm 
+                        onAdd={addTask}
+                        editingTask={editingTask}
+                        />
                 </div>
                 <div className="chat-section">
                     <AIChat/>
@@ -33,6 +41,7 @@ function App() {
             <TaskList 
                 taskList={taskData}
                 onDelete={deleteTask}
+                onEdit={editTask}
                 />
         </>
     )

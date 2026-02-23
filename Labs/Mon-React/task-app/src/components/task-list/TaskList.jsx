@@ -1,6 +1,6 @@
 import { TaskCard } from "./TaskCard"
 
-export const TaskList = ({taskList, onDelete}) => {
+export const TaskList = ({taskList, onDelete, onEdit}) => {
     return (
         <div className="p-6 bg-gray-50 rounded-lg">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Tasks</h2>
@@ -10,7 +10,8 @@ export const TaskList = ({taskList, onDelete}) => {
                         <TaskCard 
                             key={task.taskId || task.taskTitle} 
                             task={task}
-                            onDelete={onDelete}/>
+                            onDelete={onDelete}
+                            onEdit={onEdit}/>
                     ))
                 }
             </ul>

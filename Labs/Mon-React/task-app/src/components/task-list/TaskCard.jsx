@@ -1,4 +1,4 @@
-export const TaskCard = ({task, onDelete}) => {
+export const TaskCard = ({task, onDelete, onEdit}) => {
     const priorityColorMap = {
         'High': 'bg-red-100 text-red-800 border-red-300',
         'Medium': 'bg-yellow-100 text-yellow-800 border-yellow-300',
@@ -37,12 +37,21 @@ export const TaskCard = ({task, onDelete}) => {
                 <p className="text-gray-900 font-medium">{task.taskEmp}</p>
             </div>
 
-            <button 
-                className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
-                onClick={() => onDelete(task.taskId)}
-            >
-                Delete
-            </button>
+            <div className="flex justify-between">
+                <button 
+                    className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200 w-full"
+                    onClick={() => onDelete(task.taskId)}
+                >
+                    Delete
+                </button>
+
+                <button 
+                    className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200 w-full"
+                    onClick={() => onEdit(task)}
+                >
+                    Edit
+                </button>
+            </div>
         </li>
     )
 }

@@ -1,27 +1,47 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
-export const TaskForm = ({onAdd}) => {
+export const TaskForm = ({onAdd, editingTask}) => {
 
     const [taskObj, setTaskObj] = useState({
         taskId: 0,
         taskTitle: "",
         taskDesc: "",
         taskStartDate: "",
-        taskEndData: "",
+        taskEndDate: "",
         taskPriority: "Low",
         taskEmp: ""
     });
     const [taskIdCounter, setTaskIdCounter] = useState(1);
 
     // const [taskTitle, setTaskTitle] = useState();
+    useEffect(() => {
+        if(editingTask) {
+            setTaskObj(editingTask);
+        }
+    }, [editingTask]);
+    // without useEffect form will never update when a new task is selected for editing
+    // React does not auto-sync props into state
+    // useState runs only once at component load
+    // without useEffect form remains empty even after we click on edit task button
+    // whenever editingTask changes, update form state
+    // useEffect is like a bridge between selected component and input boxes.
 
     const taskHandler = (e) => {
         e.preventDefault();
-        setTaskObj({...taskObj, taskId: taskIdCounter});
+        // setTaskObj({...taskObj, taskId: taskIdCounter});
         setTaskIdCounter(taskIdCounter + 1);
         // onAdd(taskTitle);
         onAdd(taskObj);
         // console.log(taskData);
+        setTaskObj({
+            taskId: taskIdCounter,
+            taskTitle: "",
+            taskDesc: "",
+            taskStartDate: "",
+            taskEndDate: "",
+            taskPriority: "",
+            taskEmp: ""
+        });
     }
 
     const textChangeHandler = (e) => {
@@ -43,6 +63,7 @@ export const TaskForm = ({onAdd}) => {
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                     name="taskTitle"
+                    value={taskObj.taskTitle}
                     onChange={textChangeHandler}
                 />
             </div>
@@ -55,6 +76,7 @@ export const TaskForm = ({onAdd}) => {
                     rows="4"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     onChange={textChangeHandler}
+                    value={taskObj.taskDesc}
                     name="taskDesc"
                 ></textarea>
             </div>
@@ -67,6 +89,7 @@ export const TaskForm = ({onAdd}) => {
                         id="startDate"
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         onChange={textChangeHandler}
+                        value={taskObj.taskStartDate}
                         name="taskStartDate"
                     />
                 </div>
@@ -78,6 +101,7 @@ export const TaskForm = ({onAdd}) => {
                         id="endDate"
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         onChange={textChangeHandler}
+                        value={taskObj.taskEndDate}
                         name="taskEndDate"
                     />
                 </div>
@@ -90,6 +114,7 @@ export const TaskForm = ({onAdd}) => {
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     onChange={textChangeHandler}
                     name="taskPriority"
+                    value={taskObj.taskPriority}
                 >
                     <option value="">Select priority</option>
                     <option value="Low">Low</option>
@@ -105,6 +130,7 @@ export const TaskForm = ({onAdd}) => {
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     onChange={textChangeHandler}
                     name="taskEmp"
+                    value={taskObj.taskEmp}
                 >
                     <option value="">Select employee</option>
                     <option value="John">John</option>
