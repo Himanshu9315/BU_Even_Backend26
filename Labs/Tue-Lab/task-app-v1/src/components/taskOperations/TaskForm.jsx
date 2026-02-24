@@ -1,6 +1,6 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
-export const TaskForm = ({onAdd}) => {
+export const TaskForm = ({onAdd, editTaskObj}) => {
 
     // const [taskTitle, setTaskTitle] = useState("");
 
@@ -20,11 +20,13 @@ export const TaskForm = ({onAdd}) => {
         priority: "",
         empName: ""
     });
+    const [taskIdCounter, setTaskIdCounter] = useState(1);
 
     const taskChangeHandler = (event) => {
         // console.log(event.target);
         const key = event.target.name;
         const value = event.target.value;
+
         setTaskObj({...taskObj, [key]: value});
     }
 
@@ -32,8 +34,27 @@ export const TaskForm = ({onAdd}) => {
         event.preventDefault();
         // alert("Task Added...");
         // onAdd(taskTitle);
-        onAdd(taskObj)
+        // setTaskObj({...taskObj, taskId: taskIdCounter});
+        setTaskIdCounter(taskIdCounter + 1);
+        onAdd(taskObj);
+        // clear text boxes
+        // setTaskTitle("");
+        setTaskObj({
+            taskId: taskIdCounter,
+            taskTitle: "",
+            taskDesc: "",
+            startDate: "",
+            endDate: "",
+            priority: "",
+            empName: ""
+        });
     }
+
+    useEffect(() => {
+        if(editTaskObj) {
+            setTaskObj(editTaskObj)
+        }
+    }, [editTaskObj]);
 
     return (
         <div className="bg-gray-50 py-8 px-4">
@@ -51,6 +72,7 @@ export const TaskForm = ({onAdd}) => {
                             placeholder="Enter task title" 
                             name="taskTitle"
                             onChange={taskChangeHandler}
+                            value={taskObj.taskTitle}
                             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
                             required
                         />
@@ -67,6 +89,7 @@ export const TaskForm = ({onAdd}) => {
                             name="taskDesc"
                             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition resize-none"
                             rows="4"
+                            value={taskObj.taskDesc}
                             onChange={taskChangeHandler}
                         />
                     </div>
@@ -80,8 +103,10 @@ export const TaskForm = ({onAdd}) => {
                             id="employeeName"
                             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition bg-white"
                             onChange={taskChangeHandler}
+                            value={taskObj.empName}
                             name="empName"
                         >
+                            <option value="">Select Emp</option>
                             <option value="John">John</option>
                             <option value="Max">Max</option>
                             <option value="Smith">Smith</option>
@@ -102,6 +127,7 @@ export const TaskForm = ({onAdd}) => {
                                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
                                 onChange={taskChangeHandler}
                                 name="startDate"
+                                value={taskObj.startDate}
                             />
                         </div>
 
@@ -116,6 +142,7 @@ export const TaskForm = ({onAdd}) => {
                                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
                                 onChange={taskChangeHandler}
                                 name="endDate"
+                                value={taskObj.endDate}
                             />
                         </div>
 
@@ -129,6 +156,7 @@ export const TaskForm = ({onAdd}) => {
                                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition bg-white"
                                 onChange={taskChangeHandler}
                                 name="priority"
+                                value={taskObj.priority}
                             >
                                 <option value="low">Low</option>
                                 <option value="medium">Medium</option>

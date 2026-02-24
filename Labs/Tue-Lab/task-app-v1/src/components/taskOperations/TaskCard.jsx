@@ -1,4 +1,4 @@
-export const TaskCard = ({task, index}) => {
+export const TaskCard = ({task, index, onDelete, onEdit}) => {
     const getPriorityColor = (priority) => {
         switch(priority?.toLowerCase()) {
             case 'critical':
@@ -31,6 +31,9 @@ export const TaskCard = ({task, index}) => {
 
     return (
         <div className="bg-white rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-200 p-6 overflow-hidden">
+            <div>
+                TaskID : {task.taskId}
+            </div>
             {/* Header with Priority Badge */}
             <div className="flex items-start justify-between mb-4">
                 <h3 className="text-lg font-bold text-gray-800 flex-1 pr-2">{task.taskTitle || 'Untitled Task'}</h3>
@@ -74,6 +77,21 @@ export const TaskCard = ({task, index}) => {
             <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition duration-200 text-sm">
                 View Details
             </button>
+
+            <div>
+                <div className="grid grid-cols-2 gap-3 my-2">
+                    <button onClick={() => onDelete(task.taskId)}
+                    className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md transition duration-200 text-sm">
+                        Delete Task
+                    </button>
+                    <button onClick={() => onEdit(task)}
+                    className="bg-yellow-600 hover:bg-yellow-700 text-white font-medium py-2 px-4 rounded-md transition duration-200 text-sm">
+                        Edit Task
+                    </button>
+                </div>
+                
+            </div>
+
         </div>
     )
 }
