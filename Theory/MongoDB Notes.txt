@@ -1,0 +1,111 @@
+MongoDB
+
+Types of data:
+1. Structured (tables)
+2. Unstructured (images, raw text, audio)
+3. Semi-Structured (JSON, XML)
+
+NoSQL
+- Stands for Not Only SQL
+- No predefined schema
+- Schema-less / Schema-free
+
+2000 - Graph database Neo4j was launched
+2004 - Google Big Table was launched
+2005 - CouchDB was launched
+2007 - Amazon Dynamo was released
+2008 - Cassandra was launched
+2009 - NoSQL was reintroduced with MongoDB
+
+
+Types of NoSQL Databases:
+1. Key-value pair based - Redis, Dynamo, Riak
+2. Column-oriented - Cassandra, HBase
+3. Graph based - Neo4j
+4. Document oriented -  MongoDB
+
+
+MongoDB
+- Each database contains collections which in turn contains documents
+- Each document can be different with a varying number of fields
+- The rows (or document in MongoDB) don't need to have a schema pre-defined
+- Instead the fields and collections can be created on fly
+
+
+Getting started with MongoDB
+1. Install MongoDB
+2. Open termina/command promopt
+3. Enter - mongosh
+
+Create Database:
+use db_name
+This command will create database + switch to this database
+
+Create Collection
+db.createCollection("coll_name");
+
+Display all the collection in a database
+show collections;
+
+Parameters while creating collection:
+capped: Used to create a capped collection. 
+size: We specify size in bytes
+max: We specify max documents allowed
+
+Converting existing collection into capped collection:
+db.runCommand({convertToCapped: "students", size:500000});
+
+How to insert data in collections?
+Insert One document
+db.logs.insertOne({"event":"clicked on login", "response":"success"});
+
+Insert Many documents
+db.logs.insertMany([
+    {"event":"clicked on logout", "response":"success", code:200},
+    {"event":"clicked on product search", "response":"success", code:201},
+    {"event":"clicked on register", "response":"failed", code:404},
+    {"event":"clicked on add to cart", "response":"failed", code:500},
+]);
+
+
+How to fetch the data ?
+Get all documents - find
+db.logs.find();
+
+Get only first document - findOne
+db.logs.findOne();
+
+How to get number of documents in a collection ?
+db.logs.countDocuemnts();
+
+
+How to apply filters on documents ?
+db.logs.find({response: "failed"});
+
+Projections in MongoDB:
+Get specific key value pair
+
+db.logs.find({response: "failed"}, {event:1, response:1});
+db.logs.find({response: "failed"}, {event:1, response:1, _id:0});
+
+Just projection without filters
+db.logs.find({}, {event:1, response:1, _id:0});
+
+
+db.logs.insertOne({"event":"clicked on login", "response":"success", "time":"01:50 PM", "date": "09-10-2013"});
+
+
+Update document(s):
+updateOne:
+db.logs.updateOne({response:"failed"}, {$set: {code:403}});
+
+updateMany:
+db.logs.updateMany({response:"failed"}, {$set: {code:403}});
+
+
+Delete document(s):
+deleteOne:
+db.logs.deleteOne({response: "failed"});
+
+deleteMany:
+db.logs.deleteMany();  // will delete all documents

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <h1>Product Search Engine</h1>
+
+    <input type="Type product name..." id="box-1">
+    <button id="btn" type="submit">Search</button>
+
+    <ul id="results">
+
+    </ul>
+    
+    <script>
+        let btn = document.querySelector("#btn");
+        let ul = document.querySelector("#results");
+        let textbox = document.querySelector("#box-1");
+        btn.addEventListener("click", async () => {
+            let query = textbox.value;
+            const URL = `/search?name=${encodeURIComponent(query)}`
+            try {
+                const response = await fetch(URL);
+                const data = await response.json();
+
+                ul.innerHTML = "";
+                data.forEach(product => {
+                    const li = document.createElement("li");
+                    li.textContent = `${product.p_name} - Price: ${product.p_price}`;
+                    ul.appendChild(li);
+                })
+            } catch (error) {
+                
+            }
+        })
+    </script>
+
+</body>
+</html>
