@@ -8,16 +8,30 @@ function App() {
 
   const username = "Ravi";
   const [taskList, setTaskTitle] = useState([]);
+  const [editTaskObj, setEditTaskObj] = useState(null);
 
   const addTask = (task) => {
     setTaskTitle([...taskList, task]);
+    // Logic for edit task (hint: use if condition)
+  }
+
+  const deleteTask = (id) => {
+      setTaskTitle(taskList.filter(task => task.taskId != id));
+  }
+
+  const editTask = (task) => {
+    setEditTaskObj(task);
   }
   
   return (
     <>
       <Header username={username}/>
-      <TaskForm onTaskAdd={addTask}/>
-      <TaskDisplay taskList={taskList}/>
+      <TaskForm onTaskAdd={addTask} editTaskObj={editTaskObj}/>
+      <TaskDisplay 
+        taskList={taskList} 
+        onDelete={deleteTask}
+        onEdit={editTask}
+        />
     </>
   )
 }

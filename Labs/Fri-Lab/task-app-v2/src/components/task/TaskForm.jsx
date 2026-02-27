@@ -1,6 +1,7 @@
+import { useEffect } from "react";
 import { useState } from "react"
 
-export const TaskForm = ({onTaskAdd}) => {
+export const TaskForm = ({onTaskAdd, editTaskObj}) => {
 
     const [taskObj, setTaskObj] = useState({
         taskId: 0,
@@ -11,10 +12,17 @@ export const TaskForm = ({onTaskAdd}) => {
         priority: "",
         employee: ""
     });
+    const [taskIdCounter, setTaskIdCounter] = useState(1);
 
     // const taskTitleHandler = (event) => {
     //     setTaskTitle(event.target.value);
     // }
+
+    useEffect(() => {
+        if(editTaskObj){
+            setTaskObj(editTaskObj)
+        }
+    }, [editTaskObj]);
 
     const taskHandler = (event) => {
         const value = event.target.value;
@@ -24,7 +32,18 @@ export const TaskForm = ({onTaskAdd}) => {
 
     const addTask = (event) => {
         event.preventDefault();     // wil stop page reloading on form submit
+        setTaskIdCounter(taskIdCounter + 1);
+        // setTaskObj({...taskObj, taskId: taskIdCounter});
         onTaskAdd(taskObj);
+        setTaskObj({
+            taskId: taskIdCounter,
+            taskTitle: "",
+            taskDescription: "",
+            startDate: "",
+            endDate: "",
+            priority: "",
+            employee: ""
+        })
     }
 
     return (
@@ -45,6 +64,7 @@ export const TaskForm = ({onTaskAdd}) => {
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                             onChange={taskHandler}
                             name="taskTitle"
+                            value={taskObj.taskTitle}
                         />
                     </div>
 
@@ -60,6 +80,7 @@ export const TaskForm = ({onTaskAdd}) => {
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition resize-none"
                             onChange={taskHandler}
                             name="taskDescription"
+                            value={taskObj.taskDescription}
                         ></textarea>
                     </div>
 
@@ -76,6 +97,7 @@ export const TaskForm = ({onTaskAdd}) => {
                                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                                 onChange={taskHandler}
                                 name="startDate"
+                                value={taskObj.startDate}
                             />
                         </div>
 
@@ -90,6 +112,7 @@ export const TaskForm = ({onTaskAdd}) => {
                                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                                 onChange={taskHandler}
                                 name="endDate"
+                                value={taskObj.endDate}
                             />
                         </div>
                     </div>
@@ -106,6 +129,7 @@ export const TaskForm = ({onTaskAdd}) => {
                                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                                 onChange={taskHandler}
                                 name="priority"
+                                value={taskObj.priority}
                             >
                                 <option value="">Select Priority</option>
                                 <option value="low">Low</option>
@@ -125,12 +149,13 @@ export const TaskForm = ({onTaskAdd}) => {
                                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                                 onChange={taskHandler}
                                 name="employee"
+                                value={taskObj.employee}
                             >
                                 <option value="">Select Employee</option>
-                                <option value="emp1">John Doe</option>
-                                <option value="emp2">Jane Smith</option>
-                                <option value="emp3">Mike Johnson</option>
-                                <option value="emp4">Sarah Williams</option>
+                                <option value="John Doe">John Doe</option>
+                                <option value="Jane Smith">Jane Smith</option>
+                                <option value="Mike Johnson">Mike Johnson</option>
+                                <option value="Sarah Williams">Sarah Williams</option>
                             </select>
                         </div>
                     </div>
